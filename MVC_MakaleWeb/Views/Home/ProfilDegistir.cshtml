@@ -1,0 +1,88 @@
+﻿@model MakaleEntities.Kullanici
+@{
+    ViewBag.Title = "ProfilDegistir";
+}
+<link href="~/Content/Validation_css.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <h3>
+            <b>
+                @ViewBag.Title
+            </b>
+        </h3>
+    </div>
+
+    <div class="row">
+        @using (Html.BeginForm("ProfilDegistir", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal">
+                <div class="col-md-3">
+                    @Html.HiddenFor(x => x.ProfilResimDosyaAdi) @*taşır ama ismini göstermez*@
+                    <img src="~/Resim/@Model.ProfilResimDosyaAdi"
+                         class="img-thumbnail" width="150" height="150" />
+                    <br />
+                    <input type="file" name="ProfilResim" class="form-control" />
+                    <br />
+                    <span class="glyphicon glyphicon-info-sign"> </span>
+                    <span> Lütfen jpg,png,jpeg formatlarını kullanın </span>
+                </div>
+                <div class="col-md-9">
+
+                    @Html.ValidationSummary(false)
+                    @Html.HiddenFor(x => x.ID)  @*taşır ama ismini göstermez*@
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Adi, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.Adi, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Soyadi, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.Soyadi, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.KullaniciAdi, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.KullaniciAdi, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Email, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Sifre, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.Sifre, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <input type="submit" value="Kaydet" class="btn btn-success" />
+                            @Html.ActionLink("İptal", "ProfilGoster", null, new { @class = "btn btn-default" })
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        }
+
+    </div>
+</div>
+@section footer{
+
+    @Html.Partial("_PartialPageFooter")
+
+}
+

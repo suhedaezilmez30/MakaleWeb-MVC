@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "KayitBasarili";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<BR />
+<BR />  
+<link href="~/Content/Login.css" rel="stylesheet" />
+<section class="login-info">
+    <div class="container">
+        <div class="row main">
+            <div class="form-header">
+                <h1 class="text-center ">Kayıt başarılı </h1>
+            </div>
+            <div class="main-content">
+                @Html.ValidationSummary(false) @*modele yazdığımız hataları almak için yaptık *@              
+                <div class="checkbox">         
+                </div>
+                <div class="form-group ">                  
+                   <p class="text-justify text-danger ">
+                        Lütfen e-posta adresine gönderilern aktivasyon linkine tıklayarak hesabınızı aktifleşitirniz.
+                        Hesabınızı aktifleştirmeden işlem yapamazsınız!...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

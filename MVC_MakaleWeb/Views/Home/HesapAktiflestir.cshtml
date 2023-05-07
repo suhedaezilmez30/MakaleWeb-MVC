@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "HesapAktiflestir";
+}
+
+<h2>HesapAktiflestirildi</h2>
+
+<link href="~/Content/Login.css" rel="stylesheet" />
+<section class="login-info">
+    <div class="container">
+        <div class="row main">
+            <div class="form-header">
+                <h1 class="text-center ">Hesap Aktifleştirildi </h1>
+            </div>
+            <div class="main-content">
+                @Html.ValidationSummary(false) @*modele yazdığımız hataları almak için yaptık *@
+                <div class="checkbox">
+                </div>
+                <div class="form-group ">
+                    <p class="text-justify text-danger ">
+                        Hesabınız aktifleştirildi.Artık Makale ve yorum yazaabilirsiniz ve beğeni yapabilirsiniz
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

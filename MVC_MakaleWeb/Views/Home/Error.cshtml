@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "ActiveError";
+}
+
+
+@{
+    ViewBag.Title = "HesapAktiflestir";
+}
+
+<link href="~/Content/Login.css" rel="stylesheet" />
+<section class="login-info">
+    <div class="container">
+        <div class="row main">
+            <div class="form-header">
+                <h1 class="text-center ">Yönlendiriliyorsunuz...</h1>
+            </div>
+            <div class="main-content" >
+                <h2><span class="glyphicon glyphicon-remove"> Geçersiz işlem</span></h2>
+                <div class="danger">
+                    <br />
+                    <p class="text-justify  ">
+                        @foreach (string item in (List<string>)ViewBag.hatalar)
+                        {
+                            @item
+                            <br />
+                        }
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+   
+</section>
+
