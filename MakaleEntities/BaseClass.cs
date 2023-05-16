@@ -12,11 +12,11 @@ namespace MakaleEntities
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [Required]
+        [Required, ScaffoldColumn(false)]
         public DateTime KayitTarihi { get; set; }
-        [Required]
+        [Required, ScaffoldColumn(false)]
         public DateTime DegistirmeTarihi { get; set; }
-        [Required,StringLength(30)]
+        [Required,StringLength(30), ScaffoldColumn(false)]
         public string DegistirenKullanici { get; set; }
     }
 }

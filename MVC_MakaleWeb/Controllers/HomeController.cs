@@ -12,15 +12,19 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using MVC_MakaleWeb.Models;
+using System.Data.Entity;
+using MVC_MakaleWeb.Filter;
 
 namespace MVC_MakaleWeb.Controllers
-{
+{[Exc]
     public class HomeController : Controller
     {
         // GET: Home
         MakaleYonet my = new MakaleYonet();
         KategoriYonet ky = new KategoriYonet();
         KullaniciYonet kuly = new KullaniciYonet();
+        BegeniYonet by=new BegeniYonet();
         public ActionResult Index()
         {
            // Test test = new Test();
@@ -28,8 +32,16 @@ namespace MVC_MakaleWeb.Controllers
             //test.UpdateTest();
             // test.DeleteTest();
             //test.YorumTest();
-            
-            return View(my.Listele());
+
+            //int i=0;   hata sayfasını test etmek için eklendi
+            //int s=1/i;
+            return View(my.Listele().Where(x=>x.Taslak!=true).ToList());
+        }
+        [Auth]
+       public ActionResult Begendiklerim()
+        {
+            var query= by.ListQueryable().Include("Kullanici").Include("Makale").Where(x=>x.Kullanici.ID==SessionUser.Login.ID).Select(x=>x.Makale).Include("Kategori").Include("Kullanici").OrderByDescending(x=>x.DegistirmeTarihi);
+               return View("Index",query.ToList());
         }
         public PartialViewResult kategoriPartial()
         {
@@ -82,7 +94,7 @@ namespace MVC_MakaleWeb.Controllers
                     sonuc.hatalar.ForEach(x => ModelState.AddModelError("", x));
                     return View(model);
                 }
-                Session["login"] = sonuc.nesne;
+                SessionUser.Login = sonuc.nesne;
                 Uygulama.login = sonuc.nesne.KullaniciAdi;
                 return RedirectToAction("Index");
             }
@@ -154,10 +166,10 @@ namespace MVC_MakaleWeb.Controllers
             return View();
 
         }
+        [Auth]
         public ActionResult ProfilGoster( )
         {
-            Kullanici kullanici = Session["login"] as Kullanici;
-            MakaleBLLSonuc<Kullanici>sonuc =kuly.KullaniciBul(kullanici.ID);
+            MakaleBLLSonuc<Kullanici>sonuc =kuly.KullaniciBul(SessionUser.Login.ID);
             if (sonuc.hatalar.Count>0)
             {
                 TempData["hatalar"] = sonuc.hatalar;
@@ -166,10 +178,11 @@ namespace MVC_MakaleWeb.Controllers
 
             return View(sonuc.nesne);
         }
+        [Auth]
         public ActionResult ProfilDegistir()
         {
-            Kullanici kullanici = Session["login"] as Kullanici;
-            MakaleBLLSonuc<Kullanici> sonuc = kuly.KullaniciBul(kullanici.ID);
+            
+            MakaleBLLSonuc<Kullanici> sonuc = kuly.KullaniciBul(SessionUser.Login.ID);
             if (sonuc.hatalar.Count > 0)
             {
                 TempData["hatalar"] = sonuc.hatalar;
@@ -177,6 +190,7 @@ namespace MVC_MakaleWeb.Controllers
             }
             return View( sonuc.nesne);
         }
+       [ Auth ]
         [HttpPost]
         public ActionResult ProfilDegistir(Kullanici model, HttpPostedFileBase ProfilResim)
         {
@@ -198,7 +212,7 @@ namespace MVC_MakaleWeb.Controllers
                     sonuc.hatalar.ForEach(x => ModelState.AddModelError("", x));
                     return View(model);
                 }
-                Session["login"] = sonuc.nesne;
+                SessionUser.Login = sonuc.nesne;
               return RedirectToAction("ProfilGoster");
               
 
@@ -209,20 +223,26 @@ namespace MVC_MakaleWeb.Controllers
             }
             
         }
+      [Auth]
       public ActionResult ProfilSil()
         {
-            Kullanici kullanici = Session["login"] as Kullanici;
-
-            MakaleBLLSonuc<Kullanici>sonuc=kuly.KullaniciSil(kullanici.ID);
+            MakaleBLLSonuc<Kullanici>sonuc=kuly.KullaniciSil(SessionUser.Login.ID);
             if (sonuc.hatalar.Count>0)
             {
                 TempData["hatalar"] = sonuc.hatalar;
                 return RedirectToAction("Error");
             }
-
             Session.Clear();
             
             return RedirectToAction("Index");
+        }
+        public ActionResult YetkisizErisim()
+        {
+            return View();
+        }
+        public ActionResult HataliIslem()
+        {
+            return View();
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿@using MakaleBLL
 @using MakaleEntities
+@using MVC_MakaleWeb.Models
 @{ 
-    KategoriYonet ky = new KategoriYonet();
-    List<Kategori> liste = ky.Listele();
-
+    List<Kategori> liste = CasheHelper.KategoriCache();
 }
 <p class="lead">Kategoriler</p>
 <div class="list-group">

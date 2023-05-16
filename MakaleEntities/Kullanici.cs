@@ -22,10 +22,10 @@ namespace MakaleEntities
         public string Email { get; set; }
         [Required, StringLength(20) ,DisplayName("şifre")]
         public string Sifre { get; set; }
-        [StringLength (30)]
+        [StringLength (30),ScaffoldColumn(false)] //create edilmicek boş geçicek scaffoldcolumn
         public string ProfilResimDosyaAdi { get; set; }
         public bool Aktif { get; set; }
-        [Required]
+        [Required, ScaffoldColumn(false)]
         public Guid AktifGuid { get; set; }
         public bool Admin { get; set; }
 

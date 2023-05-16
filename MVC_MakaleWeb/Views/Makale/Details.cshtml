@@ -1,0 +1,58 @@
+﻿@model MakaleEntities.Makale
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div>
+            <h2>Makale Detay</h2>
+
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Kategori.Baslik)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Baslik)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Baslik)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Icerik)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Icerik)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Taslak)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Taslak)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BegeniSayisi)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BegeniSayisi)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-md-8 col-md-offset-1">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+</div>
+</div>
+</div>

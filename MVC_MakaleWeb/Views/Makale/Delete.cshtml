@@ -1,0 +1,65 @@
+﻿@model MakaleEntities.Makale
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h3>Bu makaleyi silmek istediğinize emin misiniz?</h3>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Kategori.Baslik)
+                </dt>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Baslik)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Baslik)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Icerik)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Icerik)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Taslak)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Taslak)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BegeniSayisi)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BegeniSayisi)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                @Html.ActionLink("Geri dön", "Index", null, new { @class = "btn btn-success" })
+            </div>
+        }
+    </div>
+</div>

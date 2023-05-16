@@ -20,5 +20,10 @@ namespace MakaleDAL
         {
             Database.SetInitializer(new VeriTabanıOlusturucu());
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Makale>().HasMany(x => x.Yorumlar).WithRequired(x => x.Makale).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Makale>().HasMany(m => m.Begeniler).WithRequired(x => x.Makale).WillCascadeOnDelete(true);
+        }
     }
 }

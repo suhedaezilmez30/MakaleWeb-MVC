@@ -4,6 +4,10 @@
     ViewBag.Title = "Index";
 }
 <!-- Page Content -->
+
+<script src="~/Scripts/CommentScripts.js"></script>
+<script src="~/Scripts/LikeScripts.js"></script>
+
 <div class="container">
 
     <div class="row">
@@ -59,12 +63,12 @@
                     x = r.Next(200, 400);
                     link = "https://picsum.photos/id/" + x + "/200/300";
                     //link="/resim/"+item.ıd.tostring()+".jpg";
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="col-sm-4 col-lg-4 col-md-4" data-makaleid="@item.ID">
                         <div class="thumbnail">
                             <img src=@link alt="">
                             <div class="caption">
                                 <h4>
-                                    <a href="#">@item.Baslik</a>
+                                    <a href="/Makale/MakaleGoster"   data-toggle="modal" data-target="#modal_makale" data-makaleid="@item.ID">@item.Baslik</a>
                                 </h4>
                                 <h6 class="text-right">
                                     <span class="glyphicon glyphicon-user"></span>@item.Kullanici.KullaniciAdi
@@ -74,7 +78,9 @@
                                 @if (!string.IsNullOrEmpty(item.Icerik) && item.Icerik.Length > 70)
                                 {
 
-                                    <p>@item.Icerik.Substring(0, 30) </p><p class="pull-right"> <a href="#" class="btn btn-default btn-xs">devamı<span class="glyphicon glyphicon-chevron-right"></span></a></p>
+                                    <p>@item.Icerik.Substring(0, 30) </p><p class="pull-right">
+                                        <a href="/Makale/MakaleGoster" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modal_makale" data-makaleid="@item.ID">devamı<span class="glyphicon glyphicon-chevron-right"></span></a>
+                                    </p>
                                 }
 
                                 <br />
@@ -87,11 +93,15 @@
                             <div><hr /></div>
                             <div class="ratings">
                                 <p class="pull-right">
-                                    <button class="btn btn-default btn-sm"><span class=" glyphicon glyphicon-comment "></span> yorumlar  </button>
-
+                                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal1"
+                                            data-makaleid="@item.ID">
+                                        <span class=" glyphicon glyphicon-comment "></span> yorumlar
+                                    </button>
                                 </p>
                                 <p>
-                                    <button class="btn btn-default btn-sm"><span class=" glyphicon glyphicon-heart "></span> @item.BegeniSayisi </button>
+                                    <button class="btn btn-default btn-sm" data-mid="@item.ID" data-like="false">
+                                        <span class="glyphicon glyphicon-heart-empty like-kalp-@item.ID"></span><span class="like-count-@item.ID">@item.BegeniSayisi </span>
+                                    </button>
 
                                 </p>
                             </div>
@@ -99,18 +109,31 @@
                     </div>
                 }
 
-
             </div>
 
         </div>
 
     </div>
-
-
 </div>
 <!-- /.container -->
+
+@MyHelper.ModalPopup("modal1", "yorumlar")
+@MyHelper.ModalPopup("modal_makale", "Makale")
+@MyHelper.ModalPopup("YorumGoster","Yorum")
 @section footer{
 
     @Html.Partial("_PartialPageFooter")
-   
 }
+
+
+<script>
+    $(function () {  //sayfa yüklendiğinde
+        $('#modal_makale').on('show.bs.modal', function (e) {
+            var btn = $(e.relatedTarget);
+            mid = btn.data("makaleid");
+            //console.log(mid);  hatayı bulmak için
+
+            $("#modal_makale_body").load("/Makale/MakaleGoster/" + mid); //ıd gönderdiğim için sonuna / koyduk
+        })
+    });
+</script>

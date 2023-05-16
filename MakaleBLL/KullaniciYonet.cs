@@ -4,6 +4,7 @@ using MakaleEntities;
 using MakaleEntities.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
@@ -45,13 +46,13 @@ namespace MakaleBLL
 
         public MakaleBLLSonuc<Kullanici> KullaniciBul(int id)
         {
-            MakaleBLLSonuc<Kullanici> sonuc = new MakaleBLLSonuc<Kullanici>();
+            
             sonuc.nesne = rep_kul.Find(x => x.ID == id);
             if (sonuc.nesne == null)
             {
                 sonuc.hatalar.Add("kullanıcı bulunamadı");
             }
-
+           
             return sonuc;
         }
         
@@ -96,9 +97,30 @@ namespace MakaleBLL
 
 
         }
+        public MakaleBLLSonuc<Kullanici> KullaniciKaydet(Kullanici kullanici)
+        {
+            sonuc = KullaniciKontrol(kullanici);
+            if (sonuc.hatalar.Count > 0)
+            {
+                sonuc.nesne = kullanici;
+                return sonuc;
 
+            }
+            else
+            {
+                sonuc.nesne = rep_kul.Find(x => x.ID == kullanici.ID);
+                sonuc.nesne.Adi = kullanici.Adi;
+                sonuc.nesne.Soyadi = kullanici.Soyadi;
+                sonuc.nesne.Email = kullanici.Email;
+                sonuc.nesne.KullaniciAdi = kullanici.KullaniciAdi;
+                sonuc.nesne.Sifre = kullanici.Sifre;
 
-       
+                return sonuc;
+
+            }
+                
+       }
+
         public MakaleBLLSonuc<Kullanici> KullaniciUpdate(Kullanici model)
         {
 
@@ -166,13 +188,34 @@ namespace MakaleBLL
 
         public MakaleBLLSonuc<Kullanici> KullaniciSil(int id)
         {
-            Kullanici kullanici=rep_kul.Find(x=>x.ID == id);
+            //Kullanici kullanici1 = rep_kul.Find(x => x.ID == id);
+            //Repository<Makale> rep_makale = new Repository<Makale>();
+            //Repository<Yorum> rep_yorum = new Repository<Yorum>();
+            //Repository<Begeni> rep_begeni = new Repository<Begeni>();
+            //foreach (var item in kullanici1.makaleler.ToList())
+            //{
+            //    //makalenin yorumlarını sil
+            //    foreach (Yorum yorum in item.Yorumlar.ToList())
+            //    {
+            //        rep_yorum.Delete(yorum);
+            //    }
+            //    //makalenin beğenilerini sil
+            //    foreach (Begeni begeni in item.Begeniler.ToList())
+            //    {
+            //        rep_begeni.Delete(begeni);
+            //    }
+            //    rep_makale.Delete(item);
+            //}
+            //rep_kul.Delete(sonuc.nesne);
+            //return sonuc;
+
+            Kullanici kullanici = rep_kul.Find(x => x.ID == id);
             if (kullanici != null)
             {
-              if(rep_kul.Delete(kullanici)<1)
+                if (rep_kul.Delete(kullanici) < 1)
                 {
                     sonuc.hatalar.Add("Kullanıcı silinemedi");
-                }               
+                }
             }
             else
             {
@@ -180,6 +223,12 @@ namespace MakaleBLL
             }
             return sonuc;
         }
+        public List<Kullanici> KullaniciListesi()
+        {
+            return rep_kul.Liste();
+        }
+
+
     }
-   }
+}
 

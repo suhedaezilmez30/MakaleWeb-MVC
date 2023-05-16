@@ -1,0 +1,89 @@
+﻿
+@model IEnumerable<MakaleEntities.Kullanici>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2>Kullanıcılar</h2>
+        <hr />
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <p>
+            @Html.ActionLink("Yeni Kullanıcı", "Create", null, new { @class = "btn btn-primary" })
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Adi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Soyadi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.KullaniciAdi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sifre)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Aktif)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Admin)
+                </th>
+
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Soyadi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KullaniciAdi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sifre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Aktif)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Admin)
+                    </td>
+
+                    <td>
+                        @MyHelper.LinkButton("/Kullanici/Edit/" + item.ID, "link", "success", "btn-xs", "Edit", "Düzenle")
+                        @MyHelper.LinkButton("/Kullanici/Details/" + item.ID, "link1", "warning", "btn-xs", "Details", "Detay")
+                        @MyHelper.LinkButton("/kullanici/Delete/" + item.ID, "link2", "danger", "btn-xs", "Delete", "Sil")
+
+
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-succes" })
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-succes" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-succes" })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

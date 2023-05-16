@@ -9,9 +9,14 @@ using System.Web.Mvc;
 using MakaleBLL;
 using MakaleDAL;
 using MakaleEntities;
+using MVC_MakaleWeb.Filter;
+using MVC_MakaleWeb.Models;
 
 namespace MVC_MakaleWeb.Controllers
 {
+    [Exc]
+    [Auth]
+    [AuthAdmin]
     public class KategoriController : Controller
     {
        
@@ -19,7 +24,7 @@ namespace MVC_MakaleWeb.Controllers
         // GET: Kategoris
         public ActionResult Index()
         {
-            return View(ky.Listele()); ;
+            return View(ky.Listele()); 
         }
 
         // GET: Kategoris/Details/5
@@ -51,14 +56,18 @@ namespace MVC_MakaleWeb.Controllers
                 ModelState.Remove("DegistirenKullanici");
                 if (ModelState.IsValid)
                 {
-                    ky.KategoriEkle(kategori);
-                    return RedirectToAction("Index");
+                  MakaleBLLSonuc<Kategori>sonuc=ky.KategoriEkle(kategori);
+                  if(sonuc.hatalar.Count>0)
+                    {
+                       sonuc.hatalar.ForEach(x => ModelState.AddModelError("", x));
+                       return View(kategori);
+                     }
+                  CasheHelper.CacheTemizle();
+                 return RedirectToAction("Index");
                 }
-                return View(kategori);
-            
-
-            return View(kategori);
+                return View(kategori);        
         }
+
 
         // GET: Kategoris/Edit/5
         public ActionResult Edit(int? id)
@@ -83,8 +92,13 @@ namespace MVC_MakaleWeb.Controllers
         {
             ModelState.Remove("DegistirenKullanici");
             if (ModelState.IsValid)
-            {
-                ky.KategoriUpdate(kategori);
+            { MakaleBLLSonuc<Kategori>sonuc=ky.KategoriUpdate(kategori);
+                if (sonuc.hatalar.Count>0)
+                {
+                        sonuc.hatalar.ForEach(x => ModelState.AddModelError("", x));
+                        return View(kategori);
+                }
+                CasheHelper.CacheTemizle();
                 return RedirectToAction("Index");
             }
             return View(kategori);
@@ -112,7 +126,8 @@ namespace MVC_MakaleWeb.Controllers
         {
 
             ky.KategoriSil(id);
-           
+            CasheHelper.CacheTemizle();
+
             return RedirectToAction("Index");
         }
 
